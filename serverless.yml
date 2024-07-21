@@ -1,0 +1,30 @@
+service: sinopsis-backend
+
+useDotenv: true
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  environment:
+    MYSQL_ROOT_PASSWORD: ${env:MYSQL_ROOT_PASSWORD}
+    MYSQL_DATABASE: ${env:MYSQL_DATABASE}
+    MYSQL_USER: ${env:MYSQL_USER}
+    MYSQL_PASSWORD: ${env:MYSQL_PASSWORD}
+    DB_HOST: ${env:DB_HOST}
+    DB_PORT: ${env:DB_PORT}
+    JWT_SECRET: ${env:JWT_SECRET}
+    PORT: ${env:PORT}
+
+functions:
+  main:
+    handler: dist/serverless.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
